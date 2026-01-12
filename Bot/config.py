@@ -2,7 +2,6 @@
 # Конфигурационный файл (токены, URL и прочее)
 
 import logging
-from telegram import Bot
 from telegram.ext import ApplicationBuilder
 
 # Токен вашего бота
@@ -14,4 +13,3 @@ logging.basicConfig(level=logging.INFO)
 
 # Создание приложения
 app = ApplicationBuilder().token(TOKEN).build()
-
