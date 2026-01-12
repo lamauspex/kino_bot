@@ -1,4 +1,36 @@
+""" кошмар все изменить!
+ГовноКод
+kinopoisk_bot/
+├── Bot/
+│   ├── __init__.py
+│   ├── config.py          # TOKEN, константы
+│   ├── main.py            # точка входа, handlers
+│   ├── states.py          # FSM-состояния (для диалогов)
+│   ├── keyboards.py       # клавиатуры Inline/Reply
+│   ├── handlers/
+│   │   ├── __init__.py
+│   │   ├── commands.py    # /start, /help
+│   │   ├── callbacks.py   # обработка кнопок
+│   │   └── messages.py    # текстовые сообщения
+│   └── services/
+│       ├── __init__.py
+│       ├── movie_service.py    # логика работы с фильмами
+│       ├── ml_service.py       # ML-модели (жанр, рекомендации)
+│       └── quote_service.py    # цитаты
+├── Data/
+│   ├── top_movies.csv
+│   └── quotes.csv
+├── models/                 # сохраненные ML-артефакты
+│   ├── genre_model.joblib
+│   └── vectorizer.joblib
+├── tests/
+│   └── test_bot.py
+├── requirements.txt
+├── Dockerfile
+├── .env.example            # пример переменных окружения
+└── .gitignore
 
+"""
 # Главный файл для запуска бота
 import nest_asyncio
 import asyncio
