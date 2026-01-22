@@ -1,4 +1,6 @@
 
+""" Загрузка, подготовка данных и обучение модели! """
+
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -51,8 +53,11 @@ df['description'] = df['description'].apply(preprocess_text)
 
 
 # Выбираем популярные жанры
-main_genres = ['фантастика', 'драма',
-               'боевик', 'триллер', 'комедия', 'фэнтези']
+main_genres = [
+    'фантастика', 'драма',
+    'боевик', 'триллер',
+    'комедия', 'фэнтези'
+]
 genre_counts = df['genre'].value_counts()
 
 filtered_data = df[df['genre'].isin(main_genres)]

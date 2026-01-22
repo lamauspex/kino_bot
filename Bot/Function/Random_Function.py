@@ -1,9 +1,9 @@
+""" Функция для получения случайного фильма """
+
+
 from Function.imports_1 import *
 
-# Функция "Random"
 
-
-# Функция для получения случайного фильма
 def get_random_movie(df):
     random_row = df.sample()
     title = random_row['title'].values[0]

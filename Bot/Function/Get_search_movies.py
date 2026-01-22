@@ -1,7 +1,7 @@
 
 from telegram.ext import ContextTypes
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-from Function.Recommendations_Genre_Function import get_recommendations_genre
+from Bot.utils.Recommendations_Genre_Function import get_recommendations_genre
 from Function.imports_1 import *
 import pandas as pd
 import nest_asyncio

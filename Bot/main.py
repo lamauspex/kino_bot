@@ -1,39 +1,14 @@
-""" кошмар все изменить!
-ГовноКод
-kinopoisk_bot/
-├── Bot/
-│   ├── __init__.py
-│   ├── config.py          # TOKEN, константы
-│   ├── main.py            # точка входа, handlers
-│   ├── states.py          # FSM-состояния (для диалогов)
-│   ├── keyboards.py       # клавиатуры Inline/Reply
-│   ├── handlers/
-│   │   ├── __init__.py
-│   │   ├── commands.py    # /start, /help
-│   │   ├── callbacks.py   # обработка кнопок
-│   │   └── messages.py    # текстовые сообщения
-│   └── services/
-│       ├── __init__.py
-│       ├── movie_service.py    # логика работы с фильмами
-│       ├── ml_service.py       # ML-модели (жанр, рекомендации)
-│       └── quote_service.py    # цитаты
-├── Data/
-│   ├── top_movies.csv
-│   └── quotes.csv
-├── models/                 # сохраненные ML-артефакты
-│   ├── genre_model.joblib
-│   └── vectorizer.joblib
-├── tests/
-│   └── test_bot.py
-├── requirements.txt
-├── Dockerfile
-├── .env.example            # пример переменных окружения
-└── .gitignore
 
-"""
-# Главный файл для запуска бота
-import nest_asyncio
-import asyncio
+from Bot.config.data_config import data_config
+from Bot.utils.Random_Quote import get_random_quote
+from Function.Get_search_movies import search_movies
+from Bot.utils.Random_Function import get_random_movie
+from Function.Get_movie_info import get_movie_info
+from model_fit.Genre_Classification_Function import load_model_predict
+from bot.Function.Recommendation_System_Function import get_recommendations
+from Bot.config.bot_config import TOKEN
+from Bot.config.data_config import data_config
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     CommandHandler,
     CallbackQueryHandler,
@@ -42,20 +17,13 @@ from telegram.ext import (
     MessageHandler,
     filters
 )
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from config import TOKEN
+import asyncio
+import nest_asyncio
 
 
-from Function.Recommendation_System_Function import get_recommendations
-from Function.Genre_Classification_Function import load_model_predict
-from Function.Get_movie_info import get_movie_info
-from Function.Random_Function import get_random_movie
-from Function.Get_search_movies import search_movies
-from Function.Random_Quote import get_random_quote
-from Function.imports_1 import *
+# Создание приложения
+app = ApplicationBuilder().token(TOKEN).build()
 
-
-dk = pd.read_csv('Data\\quotes.csv')
 nest_asyncio.apply()
 
 

@@ -1,7 +1,7 @@
 
-# Функция для рекомендаций фильмов по жанру
+""" Функция для рекомендаций фильмов по жанру """
 
-from Function.imports_1 import *
+
 import random
 
 num_recommendations = 5

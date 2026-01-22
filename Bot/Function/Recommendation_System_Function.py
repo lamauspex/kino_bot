@@ -1,5 +1,4 @@
-
-# Функция "Рекомендательная система"
+""" Рекомендательная система """
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -21,9 +20,8 @@ stop_words = list({'на', 'не', 'он', 'его', 'что', 'из',
                    'все', 'когда', 'который', 'своей', 'со',
                    'до', 'может', 'уже', 'один', 'под'})
 
+
 # Функция для предобработки текста
-
-
 def preprocess_text(text):
     text = text.lower()
     text = re.sub(r'\W+', ' ', text)
@@ -45,9 +43,8 @@ cosine_sim = linear_kernel(tfidfmatrix, tfidfmatrix)
 # Список для показанных фильмов
 shown_movies = set()
 
+
 # Функция для получения рекомендаций
-
-
 def get_recommendations(title, cosinesim=cosine_sim):
     # Получаем индекс фильма
     idx = df.index[df['title'] == title].tolist()[0]
