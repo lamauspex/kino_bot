@@ -14,12 +14,12 @@ class DataConfig(BaseConfig):
 
     @property
     def DATA_QUOTES(self) -> pd.DataFrame:
-        """DataFrame с цитатами."""
+        """ Цитаты """
         return pd.read_csv(self.DATA_QUOTES_PATH)
 
     @property
     def DATA_MOVIES(self) -> pd.DataFrame:
-        """DataFrame с фильмами."""
+        """ Фильмы """
         return pd.read_csv(self.DATA_MOVIES_PATH)
 
 

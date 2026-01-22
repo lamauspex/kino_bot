@@ -1,11 +1,11 @@
 
 from Bot.config.data_config import data_config
 from Bot.utils.Random_Quote import get_random_quote
-from Function.Get_search_movies import search_movies
+from bot.utils.Get_search_movies import search_movies
 from Bot.utils.Random_Function import get_random_movie
 from Function.Get_movie_info import get_movie_info
 from model_fit.Genre_Classification_Function import load_model_predict
-from bot.Function.Recommendation_System_Function import get_recommendations
+from bot.utils.Recommendation_System_Function import get_recommendations
 from Bot.config.bot_config import TOKEN
 from Bot.config.data_config import data_config
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
