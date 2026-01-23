@@ -139,7 +139,10 @@ async def handle_user_input(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
 
-        await update.message.reply_text("Поищем фильмы в этом жанре?", reply_markup=reply_markup)
+        await update.message.reply_text(
+            "Поищем фильмы в этом жанре?",
+            reply_markup=reply_markup
+        )
 
         # Сбрасываем состояние
         context.user_data['search_genre_action'] = False
@@ -152,7 +155,9 @@ async def handle_user_input(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
         # Проверяем, есть ли похожие фильмы
         if not recommendations:
-            await update.message.reply_text(text="К сожалению, похожих фильмов не найдено.")
+            await update.message.reply_text(
+                text="К сожалению, похожих фильмов не найдено."
+            )
 
         else:
             formated_recommendations = [
