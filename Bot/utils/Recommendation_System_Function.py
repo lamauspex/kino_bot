@@ -9,6 +9,7 @@ import re
 
 # Загружаем данные
 df = pd.read_csv('Data\\top_movies.csv')
+
 # Удаляем строки с пустыми значениями в колонке 'description'
 df.dropna(subset=['description'], inplace=True)
 

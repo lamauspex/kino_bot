@@ -1,10 +1,18 @@
 
-from telegram.ext import ContextTypes
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-from Bot.utils.Recommendations_Genre_Function import get_recommendations_genre
-from bot.utils.imports_1 import *
+
 import pandas as pd
 import nest_asyncio
+from telegram.ext import ContextTypes
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    CallbackQuery
+)
+
+
+from bot.Function.Recommendations_Genre_Function import (
+    get_recommendations_genre
+)
 
 
 dk = pd.read_csv('Data\\quotes.csv')
