@@ -1,13 +1,12 @@
 
 """ Загрузка, подготовка данных и обучение модели! """
 
-
+import re
+import joblib
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-import pandas as pd
-import joblib
-import re
 
 
 # Загружаем данные

@@ -26,6 +26,7 @@ async def start(
     )]]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
+
     await update.message.reply_text(
         welcome_message,
         reply_markup=reply_markup

@@ -9,7 +9,8 @@ from telegram import (
     InlineKeyboardMarkup
 )
 
-from bot.Function.Random_Quote import get_random_quote
+from ..function import get_random_quote
+from ..config import settings
 
 
 async def main_menu(
@@ -17,7 +18,9 @@ async def main_menu(
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
 
-    quote = get_random_quote(dk)
+    movies_df = settings.data_config.DATA_MOVIES
+
+    quote = get_random_quote(movies_df)
     await update.message.reply_text(quote)
 
     keyboard = [

@@ -3,8 +3,8 @@
 
 import asyncio
 
-from bot.app import app_bot
+from bot.app import app
 
 
 if __name__ == "__main__":
-    asyncio.run(app_bot())
+    asyncio.run(app())

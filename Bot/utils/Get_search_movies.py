@@ -1,6 +1,6 @@
+""" Поиск фильмов по жанру """
 
 
-import pandas as pd
 import nest_asyncio
 from telegram.ext import ContextTypes
 from telegram import (
@@ -9,21 +9,19 @@ from telegram import (
     CallbackQuery
 )
 
-
-from bot.Function.Recommendations_Genre_Function import (
+from ..function import (
     get_recommendations_genre
 )
 
 
-dk = pd.read_csv('Data\\quotes.csv')
 nest_asyncio.apply()
 
 
-# Поиск фильмов по жанру
 async def search_movies(
     query: CallbackQuery,
     context: ContextTypes.DEFAULT_TYPE
 ) -> None:
+
     await query.answer()
     context.user_data['search_genre_action'] = None
 
@@ -37,6 +35,7 @@ async def search_movies(
         return
     else:
         recommendations_text = "\n".join(recommendations)
+
         await query.message.reply_text(
             f"\n\nВот что я нашел:\n{recommendations_text}"
             f"\nТы можешь спросить меня о любом фильме."
@@ -45,8 +44,13 @@ async def search_movies(
 
         keyboard = [
             [InlineKeyboardButton(
-                "Еще варианты", callback_data='search_movies')],
-            [InlineKeyboardButton("В меню", callback_data='main_menu')]
+                "Еще варианты",
+                callback_data='search_movies'
+            )],
+            [InlineKeyboardButton(
+                "В меню",
+                callback_data='main_menu'
+            )]
         ]
 
         reply_markup = InlineKeyboardMarkup(keyboard)

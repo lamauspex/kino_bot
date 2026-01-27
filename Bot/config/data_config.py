@@ -3,7 +3,7 @@
 import pandas as pd
 from pydantic import Field
 
-from bot.config.base import BaseConfig
+from .base import BaseConfig
 
 
 class DataConfig(BaseConfig):

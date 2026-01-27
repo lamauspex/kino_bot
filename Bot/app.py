@@ -1,5 +1,7 @@
-""" Сборка приложения """
+"""Сборка приложения - с использованием Dependency Injection"""
 
+
+import logging
 from telegram.ext import (
     CommandHandler,
     CallbackQueryHandler,
@@ -8,32 +10,55 @@ from telegram.ext import (
     filters
 )
 
-from config.bot_config import bot_config
-from bot.handlers import start
-from bot.handlers.callbacks import button_callback
-from bot.handlers.text import handle_user_input
-import nest_asyncio
+from .containers import container
+from .handlers import (
+    start,
+    button_callback,
+    handle_user_input
+)
 
 
-# Создание приложения
-app = ApplicationBuilder().token(bot_config.TOKEN).build()
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-nest_asyncio.apply()
 
+def create_app():
+    """Фабрика приложения - создаёт и конфигурирует бота"""
 
-async def app_bot():
-    """ Запуск приложения """
+    logger.info("Создание приложения...")
 
-    app = ApplicationBuilder().token(bot_config.TOKEN).build()
+    # Инициализация контейнера (опционально - проверить соединения)
+    container.config().verify()
 
+    app = ApplicationBuilder().token(
+        container.bot_config().TOKEN
+    ).build()
+
+    # Регистрация обработчиков
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_callback))
-
     app.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
         handle_user_input,
         block=True
     ))
 
-    print("Бот запущен и готов к работе!")
+    logger.info("Обработчики зарегистрированы")
+    return app
+
+
+async def app_bot():
+    """Запуск приложения"""
+
+    app = create_app()
+
+    logger.info("Бот запущен и готов к работе!")
     await app.run_polling()
+
+
+# Для обратной совместимости - глобальные объекты
+app = create_app()
