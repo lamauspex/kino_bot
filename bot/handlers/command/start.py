@@ -1,33 +1,29 @@
-""" Приветствие """
+""" Обработчик команды /start """
 
-
+from telegram import Update
 from telegram.ext import ContextTypes
-from telegram import (
-    Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup
-)
+
+from ..base.results import HandlerResult
+from ..common.keyboards import get_main_menu_keyboard
 
 
 async def start(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
-) -> None:
+) -> HandlerResult:
+    """ Обработчик команды /start """
 
-    welcome_message = (
-        "Hello! Я твой Kино-бот! Я могу найти фильм, рассказать о нем,"
-        "подобрать похожий и не только. Нажимай далее и Я все устрою\n"
-        "Также, Ты можешь просто написать 'Расскажи о фильме ...'"
+    welcome_text = (
+        "🎬 Добро пожаловать в бота для поиска фильмов!\n\n"
+        "Я помогу вам:\n"
+        "• Найти фильмы по жанру\n"
+        "• Получить случайную рекомендацию\n"
+        "• Найти похожие фильмы\n"
+        "• Узнать подробную информацию о фильме\n\n"
+        "Выберите действие в меню ниже:"
     )
 
-    keyboard = [[InlineKeyboardButton(
-        "Далее",
-        callback_data='main_menu'
-    )]]
-
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    await update.message.reply_text(
-        welcome_message,
-        reply_markup=reply_markup
+    return HandlerResult(
+        text=welcome_text,
+        reply_markup=get_main_menu_keyboard()
     )

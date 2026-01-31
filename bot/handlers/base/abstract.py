@@ -1,4 +1,4 @@
-"""Абстрактные классы для паттернов Strategy и Command"""
+""" Абстрактные классы для паттернов Strategy и Command """
 
 from abc import ABC, abstractmethod
 from typing import Optional

@@ -13,9 +13,9 @@ from .services.recommendation_service import RecommendationService
 from .services.genre_classification_service import GenreClassificationService
 from .services.tfidf_recommendation_service import TfidfRecommendationService
 
-from .handlers.base.base import AbstractHandler
-from .handlers.command.start import StartHandler
-from .handlers.command.menu import MenuHandler
+from ..base import AbstractHandler
+from .handlers.start import StartHandler
+from .handlers.menu import MenuHandler
 from .handlers.callback.callbacks import CallbackHandler
 from .handlers.text.text import TextHandler
 
