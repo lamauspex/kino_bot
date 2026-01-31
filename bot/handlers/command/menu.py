@@ -10,7 +10,7 @@ from telegram import (
 )
 
 from ..function import get_random_quote
-from ..config import settings
+from ...config import settings
 
 
 async def main_menu(

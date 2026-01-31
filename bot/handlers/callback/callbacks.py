@@ -1,4 +1,4 @@
-"""Обработчик inline кнопок - использует Strategy паттерн"""
+""" Обработчик inline кнопок - использует Strategy паттерн """
 
 
 import logging
@@ -37,7 +37,7 @@ class CallbackHandler:
 
             if result.next_handler == "menu":
                 # Перенаправляем в меню
-                from .menu import MenuHandler
+                from ..command.menu import MenuHandler
                 menu = MenuHandler(
                     quote_service=None,
                     movie_service=None

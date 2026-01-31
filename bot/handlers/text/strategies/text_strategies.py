@@ -11,7 +11,7 @@ from telegram import (
 )
 from telegram.ext import ContextTypes
 
-from .base import HandlerResult, AbstractTextStrategy
+from ...base.base import HandlerResult, AbstractTextStrategy
 from ..services import MovieService, GenreClassificationService
 
 

@@ -54,7 +54,7 @@ async def handle_user_input(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
 ):
-    """Обёртка для обратной совместимости - использует DI контейнер"""
+    """ Обёртка для обратной совместимости - использует DI контейнер """
 
     from bot.containers import container
 

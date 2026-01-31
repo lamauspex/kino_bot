@@ -80,17 +80,7 @@ class TfidfRecommendationService:
         limit: int = 4,
         exclude_shown: bool = True
     ) -> List[Tuple[str, str]]:
-        """
-        Получить рекомендации похожих фильмов.
-
-        Args:
-            title: Название фильма
-            limit: Максимум рекомендаций
-            exclude_shown: Исключить уже показанные фильмы
-
-        Returns:
-            Список кортежей (название, ссылка)
-        """
+        """ Получить рекомендации похожих фильмов """
         self.load()
 
         try:

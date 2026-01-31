@@ -6,10 +6,10 @@ from typing import Dict
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from .base import AbstractStrategy, HandlerResult
-from ..services.movie_service import MovieService
-from ..services.recommendation_service import RecommendationService
-from ..services.genre_classification_service import GenreClassificationService
+from ..base.base import AbstractStrategy, HandlerResult
+from ...services.movie_service import MovieService
+from ...services.recommendation_service import RecommendationService
+from ...services.genre_classification_service import GenreClassificationService
 
 logger = logging.getLogger(__name__)
 

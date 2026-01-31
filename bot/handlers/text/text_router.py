@@ -1,4 +1,4 @@
-"""Роутер для текстового ввода"""
+""" Роутер для текстового ввода """
 
 import logging
 from typing import List
@@ -6,16 +6,16 @@ from typing import List
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from .base import HandlerResult, AbstractTextStrategy
-from ..services.movie_service import MovieService
-from ..services.recommendation_service import RecommendationService
-from ..services.genre_classification_service import GenreClassificationService
+from ..base.base import HandlerResult, AbstractTextStrategy
+from ...services.movie_service import MovieService
+from ...services.recommendation_service import RecommendationService
+from ...services.genre_classification_service import GenreClassificationService
 
 logger = logging.getLogger(__name__)
 
 
 class TextRouter:
-    """Роутер для маршрутизации текстового ввода"""
+    """ Роутер для маршрутизации текстового ввода """
 
     def __init__(
         self,
@@ -30,8 +30,9 @@ class TextRouter:
         self._register_default_strategies()
 
     def _register_default_strategies(self):
-        """Регистрация стандартных стратегий"""
-        from .text_strategies import (
+        """ Регистрация стандартных стратегий """
+
+        from .strategies.text_strategies import (
             MovieInfoTextStrategy,
             GenrePredictionTextStrategy,
             SimilarMovieTextStrategy,
@@ -50,7 +51,8 @@ class TextRouter:
         update: Update,
         context: ContextTypes.DEFAULT_TYPE
     ) -> HandlerResult:
-        """Маршрутизировать текстовый ввод"""
+        """ Маршрутизировать текстовый ввод """
+
         user_message = update.message.text
         current_state = context.user_data.get('state')
 

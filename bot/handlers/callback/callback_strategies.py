@@ -10,7 +10,7 @@ from telegram import (
     InlineKeyboardMarkup
 )
 
-from .base import (
+from ..base.base import (
     AbstractStrategy,
     HandlerResult,
     CallbackAction
