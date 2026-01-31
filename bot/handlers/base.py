@@ -26,6 +26,7 @@ class HandlerResult:
 
 class CallbackAction(str, Enum):
     """Перечисление всех callback actions"""
+
     MAIN_MENU = "main_menu"
     SEARCH_MOVIES = "search_movies"
     GET_RECOMMENDATIONS = "get_recommendations"
@@ -44,11 +45,13 @@ class AbstractStrategy(ABC):
         context: ContextTypes.DEFAULT_TYPE,
     ) -> HandlerResult:
         """Выполнить стратегию"""
+
         pass
 
     @abstractmethod
     def can_handle(self, callback_data: str) -> bool:
         """Проверить, может ли стратегия обработать данные"""
+
         pass
 
 
@@ -62,12 +65,14 @@ class AbstractCommand(ABC):
         context: ContextTypes.DEFAULT_TYPE,
     ) -> HandlerResult:
         """Выполнить команду"""
+
         pass
 
     @property
     @abstractmethod
     def pattern(self) -> str:
         """Паттерн для распознавания команды"""
+
         pass
 
 

@@ -16,8 +16,10 @@ class SettingsBot:
 
     def __new__(cls):
         if _SettingsHolder.instance is None:
+
             _SettingsHolder.instance = super().__new__(cls)
             _SettingsHolder.instance._initialized = False
+
         return _SettingsHolder.instance
 
     def __init__(self):

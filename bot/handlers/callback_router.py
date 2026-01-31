@@ -90,6 +90,7 @@ class CallbackRouter:
 
     def register(self, strategy: AbstractStrategy) -> None:
         """Зарегистрировать стратегию"""
+
         self._strategies[strategy.__class__.__name__] = strategy
         logger.debug(
             f"Зарегистрирована стратегия: {strategy.__class__.__name__}")
@@ -100,6 +101,7 @@ class CallbackRouter:
         context: ContextTypes.DEFAULT_TYPE
     ) -> HandlerResult:
         """Маршрутизировать callback"""
+
         callback_data = update.callback_query.data
         logger.info(f"Routing callback: {callback_data}")
 
