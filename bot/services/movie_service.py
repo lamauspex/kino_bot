@@ -1,108 +1,47 @@
-"""Сервис для работы с фильмами"""
 
-import logging
-from typing import Optional, List, Tuple
-
-import pandas as pd
-
-from .base import AbstractService
-from ..config.data_config import DataConfig
-
-logger = logging.getLogger(__name__)
+from typing import List, Optional, Tuple
+from bot.models.movie import Movie
+from bot.repositories.interfaces import MovieRepositoryProtocol
+from .interfaces import MovieServiceProtocol
 
 
-class MovieRepository:
-    """Репозиторий фильмов с кэшированием"""
+class MovieService(MovieServiceProtocol):
+    """Сервис фильмов с dependency injection"""
 
-    def __init__(self, data_config: DataConfig):
-        self._data_config = data_config
-        self._cache: Optional[pd.DataFrame] = None
-
-    @property
-    def dataframe(self) -> pd.DataFrame:
-        """Кэшированный DataFrame"""
-
-        if self._cache is None:
-            self._cache = self._data_config.DATA_MOVIES
-            logger.info("Movies DataFrame загружен в кэш")
-        return self._cache
-
-    def find_by_title(self, title: str) -> Optional[pd.Series]:
-        """Найти фильм по названию"""
-
-        matches = self.dataframe[
-            self.dataframe['title'].str.lower() == title.lower()
-        ]
-        return matches.iloc[0] if not matches.empty else None
-
-    def find_by_genre(self, genre: str) -> List[str]:
-        """Найти фильмы по жанру"""
-
-        matches = self.dataframe[
-            self.dataframe['genre'].str.lower() == genre.lower()
-        ]
-        return matches['title'].tolist()
-
-    def get_random(self) -> Tuple[str, str, str, str]:
-        """Получить случайный фильм"""
-
-        row = self.dataframe.sample(1).iloc[0]
-        return (
-            row['title'],
-            row.get('description', 'Нет описания'),
-            row.get('genre', 'Неизвестный жанр'),
-            row.get('link', 'Нет ссылки')
-        )
-
-
-class MovieService(AbstractService):
-    """Сервис фильмов"""
-
-    def __init__(self, data_config: DataConfig):
-        self._repository = MovieRepository(data_config)
-        logger.info("MovieService инициализирован")
+    def __init__(self, movie_repository: MovieRepositoryProtocol):
+        self._movie_repository = movie_repository
 
     async def get_movie_info(
         self,
-        movie_title: str
+        title: str
     ) -> Tuple[Optional[str], Optional[str]]:
         """Получить информацию о фильме"""
 
         try:
-            movie = self._repository.find_by_title(movie_title)
+            movie = await self._movie_repository.get_by_title(title)
 
             if movie is None:
                 return "Фильм не найден", None
 
             info_text = (
-                f"\n{movie['title']}"
-                f"\n{movie['genre']}"
-                f"\n{movie['director']}"
-                f"\n{movie['link']}"
-                f"\n{movie['description']}\n"
+                f"🎬 *{movie.title}*\n"
+                f"📚 Жанр: {movie.genre}\n"
+                f"🎭 Режиссёр: {movie.director}\n"
+                f"📝 {movie.description}\n"
+                f"🔗 {movie.link}\n"
             )
 
             return info_text, "main_menu"
 
         except Exception as e:
-            logger.error(f"Ошибка при получении фильма: {e}")
-            return "Произошла ошибка при поиске фильма", None
+            return f"Произошла ошибка при поиске фильма {e}", None
 
-    async def get_random_movie(self) -> Tuple[str, str, str, str]:
+    async def get_random_movie(self) -> Movie:
         """Получить случайный фильм"""
 
-        return self._repository.get_random()
+        return await self._movie_repository.get_random()
 
-    async def find_by_genre(
-        self,
-        genre: str,
-        limit: int = 5
-    ) -> List[str]:
-        """Найти фильмы по жанру"""
+    async def search_by_genre(self, genre: str, limit: int = 5) -> List[Movie]:
+        """Поиск фильмов по жанру"""
 
-        all_movies = self._repository.find_by_genre(genre)
-        import random
-        return random.sample(
-            all_movies,
-            min(limit, len(all_movies))
-        )
+        return await self._movie_repository.search_by_genre(genre, limit)

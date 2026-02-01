@@ -6,10 +6,10 @@ import re
 import joblib
 from typing import Optional
 
-from .base import AbstractService
+from .interfaces import GenreClassificationServiceProtocol
 
 
-class GenreClassificationService(AbstractService):
+class GenreClassificationService(GenreClassificationServiceProtocol):
     """Сервис классификации жанра по описанию"""
 
     def __init__(self):

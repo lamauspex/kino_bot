@@ -1,96 +1,61 @@
-"""Dependency Injection контейнер"""
 
+from bot.config.base import BaseConfig
+from bot.config.data_config import DataConfig
+from bot.config.recom_config import RecommendationConfig
 from dependency_injector import containers, providers
 
-from .config.base import BaseConfig
-from .config.bot_config import BotConfig
-from .config.data_config import DataConfig
-from .config.recom_config import RecommendationConfig
-
-from .services.movie_service import MovieService
-from .services.quote_service import QuoteService
-from .services.recommendation_service import RecommendationService
-from .services.genre_classification_service import GenreClassificationService
-from .services.tfidf_recommendation_service import TfidfRecommendationService
-
-from ..base import AbstractHandler
-from .handlers.start import StartHandler
-from .handlers.menu import MenuHandler
-from .handlers.callback.callbacks import CallbackHandler
-from .handlers.text.main import TextHandler
+from bot.repositories.interfaces import *
+from bot.repositories.tfidf_recommendation_repository import TfidfRecommendationRepository
+from bot.services.interfaces import *
+from bot.repositories.movie_repository import CachedMovieRepository
+from bot.services.movie_service import MovieService
+from bot.services.recommendation_service import RecommendationService
+from bot.services.genre_classification_service import GenreClassificationService
+from bot.services.quote_service import QuoteService
 
 
-class Container(containers.DeclarativeContainer):
-    """Центральный контейнер зависимостей"""
+class EnhancedContainer(containers.DeclarativeContainer):
+    """Улучшенный контейнер зависимостей"""
 
-    # Конфигурации (singleton - создаются один раз)
-    config = providers.Singleton(
-        BaseConfig,
+    # Конфигурации
+    config = providers.Singleton(BaseConfig)
+    data_config = providers.Singleton(DataConfig)
+    recommendation_config = providers.Singleton(RecommendationConfig)
+
+    # Репозитории (Singleton - одна инстанция на приложение)
+    movie_repository = providers.Singleton(
+        CachedMovieRepository,
+        data_config=data_config,
     )
 
-    bot_config = providers.Singleton(
-        BotConfig,
+    quote_repository = providers.Singleton(
+        CachedQuoteRepository,
+        data_config=data_config,
     )
 
-    data_config = providers.Singleton(
-        DataConfig,
+    recommendation_repository = providers.Singleton(
+        TfidfRecommendationRepository,
+        movie_repository=movie_repository,
     )
 
-    recommendation_config = providers.Singleton(
-        RecommendationConfig,
-    )
-
-    # Сервисы (singleton - одна инстанция на всё приложение)
-    movie_service = providers.Singleton(
+    # Сервисы (Prototype - новый экземпляр для каждого запроса)
+    movie_service = providers.Factory(
         MovieService,
-        data_config=data_config,
+        movie_repository=movie_repository,
     )
 
-    quote_service = providers.Singleton(
-        QuoteService,
-        data_config=data_config,
-    )
-
-    recommendation_service = providers.Singleton(
+    recommendation_service = providers.Factory(
         RecommendationService,
-        movie_service=movie_service,
-        config=recommendation_config,
+        movie_repository=movie_repository,
+        recommendation_repository=recommendation_repository,
+        recommendation_config=recommendation_config,
     )
 
     genre_service = providers.Singleton(
         GenreClassificationService,
     )
 
-    tfidf_service = providers.Singleton(
-        TfidfRecommendationService,
+    quote_service = providers.Factory(
+        QuoteService,
+        quote_repository=quote_repository,
     )
-
-    # Обработчики (prototype - новый экземпляр для каждого запроса)
-    start_handler = providers.Factory(
-        StartHandler,
-    )
-
-    menu_handler = providers.Factory(
-        MenuHandler,
-        quote_service=quote_service,
-        movie_service=movie_service,
-    )
-
-    callback_handler = providers.Factory(
-        CallbackHandler,
-        movie_service=movie_service,
-        recommendation_service=recommendation_service,
-        genre_service=genre_service,
-        tfidf_service=tfidf_service,
-    )
-
-    text_handler = providers.Factory(
-        TextHandler,
-        movie_service=movie_service,
-        genre_service=genre_service,
-        recommendation_service=recommendation_service,
-    )
-
-
-# Глобальный контейнер для использования в приложении
-container = Container()

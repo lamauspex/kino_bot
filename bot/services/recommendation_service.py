@@ -1,60 +1,53 @@
-"""Сервис рекомендаций фильмов"""
 
-import logging
-from typing import List, Tuple
+from typing import List
 
-from .base import AbstractService
-from .movie_service import MovieService
-from ..config.recom_config import RecommendationConfig
+from bot.models.movie import Movie, MovieRecommendation
+from bot.repositories.interfaces import (
+    MovieRepositoryProtocol,
+    RecommendationRepositoryProtocol
+)
+from bot.config.recom_config import RecommendationConfig
+from .interfaces import RecommendationServiceProtocol
 
-logger = logging.getLogger(__name__)
 
-
-class RecommendationService(AbstractService):
-    """Сервис рекомендаций фильмов"""
+class RecommendationService(RecommendationServiceProtocol):
+    """Сервис рекомендаций с множественными стратегиями"""
 
     def __init__(
         self,
-        movie_service: MovieService,
-        config: RecommendationConfig,
+        movie_repository: MovieRepositoryProtocol,
+        recommendation_repository: RecommendationRepositoryProtocol,
+        recommendation_config: RecommendationConfig
     ):
-        self._movie_service = movie_service
-        self._config = config
-        logger.info("RecommendationService инициализирован")
+        self._movie_repository = movie_repository
+        self._recommendation_repository = recommendation_repository
+        self._config = recommendation_config
 
     async def get_similar_movies(
         self,
         movie_title: str,
         limit: int = 5
-    ) -> List[Tuple[str, str]]:
-        """Найти похожие фильмы"""
+    ) -> List[MovieRecommendation]:
+        """Получить похожие фильмы"""
 
-        # Логика поиска похожих фильмов по жанру/описанию
         try:
-            movie = await self._movie_service.get_movie_info(movie_title)
-            if movie[0] is None:
+            movie = await self._movie_repository.get_by_title(movie_title)
+            if movie is None:
                 return []
 
-            # Упрощённая логика - возвращаем фильмы того же жанра
-            genre = movie[0].get('genre', '') if isinstance(
-                movie[0], dict) else ''
-            similar = await self._movie_service.find_by_genre(genre, limit + 1)
-
-            # Исключаем текущий фильм
-            similar = [m for m in similar if m != movie_title]
-
-            return [(m, f"https://example.com/{m}") for m in similar[:limit]]
+            return await self._recommendation_repository.get_similar_movies(
+                movie, limit
+            )
 
         except Exception as e:
-            logger.error(f"Ошибка поиска похожих: {e}")
-            return []
+            return f"Ошибка: {e}"
 
     async def get_by_genre(
         self,
         genre: str,
         limit: int = None
-    ) -> List[str]:
-        """Найти фильмы по жанру"""
+    ) -> List[Movie]:
+        """Получить фильмы по жанру"""
 
         limit = limit or self._config.NUM_RECOMMENDATIONS
-        return await self._movie_service.find_by_genre(genre, limit)
+        return await self._recommendation_repository.get_by_genre(genre, limit)
