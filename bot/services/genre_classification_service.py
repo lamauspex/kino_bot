@@ -4,12 +4,9 @@
 import os
 import re
 import joblib
-import logging
 from typing import Optional
 
 from .base import AbstractService
-
-logger = logging.getLogger(__name__)
 
 
 class GenreClassificationService(AbstractService):
@@ -18,7 +15,6 @@ class GenreClassificationService(AbstractService):
     def __init__(self):
         self._model = None
         self._vectorizer = None
-        logger.info("GenreClassificationService инициализирован")
 
     async def load_model(self):
         """Ленивая загрузка модели"""
@@ -34,7 +30,6 @@ class GenreClassificationService(AbstractService):
 
             self._model = joblib.load(model_path)
             self._vectorizer = joblib.load(vectorizer_path)
-            logger.info("Модель классификации загружена")
 
     async def predict(self, description: str) -> Optional[str]:
         """Предсказать жанр по описанию"""
@@ -54,8 +49,8 @@ class GenreClassificationService(AbstractService):
             return predicted
 
         except Exception as e:
-            logger.error(f"Ошибка классификации: {e}")
-            return None
+
+            return f"Ошибка классификации: {e}"
 
     def _preprocess_text(self, text: str) -> str:
         """Предобработка текста"""

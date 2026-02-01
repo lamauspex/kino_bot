@@ -3,7 +3,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from ..base.results import HandlerResult
+from ..base import HandlerResult
 
 
 async def help_command(

@@ -1,15 +1,14 @@
 """ Навигационные стратегии для callback'ов """
 
+
 from telegram import Update
 from telegram.ext import ContextTypes
 
 from ...base.abstract import AbstractStrategy
 from ...base.results import HandlerResult
-from ...services import (
-    MovieService,
-    RecommendationService,
-    GenreClassificationService
-)
+from bot.services.genre_classification_service import GenreClassificationService
+from bot.services.movie_service import MovieService
+from bot.services.recommendation_service import RecommendationService
 
 
 class BaseCallbackStrategy(AbstractStrategy):

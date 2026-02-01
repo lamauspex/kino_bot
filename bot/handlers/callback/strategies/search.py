@@ -8,8 +8,8 @@ from telegram import (
     InlineKeyboardMarkup
 )
 
-from ...base.results import HandlerResult
-from ..navigation import BaseCallbackStrategy
+from ...base import HandlerResult
+from bot.handlers.callback.strategies.navigation import BaseCallbackStrategy
 
 
 class SearchMoviesStrategy(BaseCallbackStrategy):

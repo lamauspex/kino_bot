@@ -1,8 +1,10 @@
 """Результаты выполнения обработчиков"""
 
-from typing import Optional
-from telegram import InlineKeyboardMarkup
+
 from enum import Enum
+from typing import Optional
+
+from telegram import InlineKeyboardMarkup
 
 
 class HandlerResult:

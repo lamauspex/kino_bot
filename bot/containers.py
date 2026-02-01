@@ -17,7 +17,7 @@ from ..base import AbstractHandler
 from .handlers.start import StartHandler
 from .handlers.menu import MenuHandler
 from .handlers.callback.callbacks import CallbackHandler
-from .handlers.text.text import TextHandler
+from .handlers.text.main import TextHandler
 
 
 class Container(containers.DeclarativeContainer):
