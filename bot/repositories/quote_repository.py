@@ -1,18 +1,21 @@
 
 """Репозиторий цитат с кэшированием"""
 
+import asyncio
+from typing import Optional
 
-from typing import Tuple
-
-from bot.repositories.interfaces import QuoteRepositoryProtocol
-from ..config.data_config import DataConfig
+from ..config import settings
+from ..models import Quote
+from ..interfaces import QuoteRepositoryProtocol
 
 
 class CachedQuoteRepository(QuoteRepositoryProtocol):
+    """Кэшированный репозиторий цитат с async/await"""
 
-    def __init__(self, data_config: DataConfig):
+    def __init__(self, data_config: settings.data_config):
         self._data_config = data_config
-        self._cache = None
+        self._cache: Optional[pd.DataFrame] = None
+        self._cache_lock = asyncio.Lock()
 
     @property
     def dataframe(self):
@@ -20,7 +23,7 @@ class CachedQuoteRepository(QuoteRepositoryProtocol):
             self._cache = self._data_config.DATA_QUOTES
         return self._cache
 
-    def get_random(self) -> Tuple[str, str]:
+    async def get_random(self) -> Quote:
         """Получить случайную цитату"""
 
         row = self.dataframe.sample(1).iloc[0]

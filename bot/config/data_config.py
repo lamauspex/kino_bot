@@ -23,4 +23,4 @@ class DataConfig(BaseConfig):
         return pd.read_csv(self.DATA_MOVIES_PATH)
 
 
-data_config = DataConfig.create()
+data_config = DataConfig()

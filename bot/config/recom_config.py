@@ -9,7 +9,6 @@ class RecommendationConfig(BaseConfig):
     """ Конфигурация рекомендаций """
 
     NUM_RECOMMENDATIONS: int = Field(
-        default=5,
         description='Количество рекомендаций'
     )
 

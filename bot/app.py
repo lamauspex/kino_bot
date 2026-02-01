@@ -2,6 +2,7 @@
 
 
 import logging
+
 from telegram.ext import (
     CommandHandler,
     CallbackQueryHandler,
@@ -35,7 +36,7 @@ def create_app():
     container.config().verify()
 
     app = ApplicationBuilder().token(
-        container.bot_config().TOKEN
+        container.settings().bot.TOKEN
     ).build()
 
     # Регистрация обработчиков

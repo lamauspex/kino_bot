@@ -1,13 +1,18 @@
 """Сервис для работы с цитатами"""
 
 
-from bot.repositories.interfaces import QuoteRepositoryProtocol
-from .interfaces import QuoteServiceProtocol
+from ..config import ServiceConfig
+from ..interfaces import QuoteServiceProtocol
 
 
 class QuoteService(QuoteServiceProtocol):
 
-    def __init__(self, quote_repository: QuoteRepositoryProtocol):
+    def __init__(
+        self,
+        quote_repository,
+        service_config: ServiceConfig = None
+    ):
+        self._config = service_config or ServiceConfig()
         self._quote_repository = quote_repository
 
     async def get_random(self) -> str:

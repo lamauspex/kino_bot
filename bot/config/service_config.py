@@ -9,26 +9,59 @@ class ServiceConfig(BaseConfig):
 
     # Кэширование
     CACHE_TTL: int = Field(
-        default=3600, description="Время жизни кэша в секундах")
+        description="Время жизни кэша в секундах"
+    )
     ENABLE_CACHE: bool = Field(
-        default=True, description="Включить кэширование")
+        description="Включить кэширование"
+    )
 
     # Производительность
     MAX_CONCURRENT_REQUESTS: int = Field(
-        default=10, description="Макс. одновременных запросов")
+        description="Макс. одновременных запросов"
+    )
     REQUEST_TIMEOUT: int = Field(
-        default=30, description="Таймаут запроса в секундах")
+        description="Таймаут запроса в секундах"
+    )
 
     # Рекомендации
     DEFAULT_RECOMMENDATION_LIMIT: int = Field(
-        default=5, description="Лимит рекомендаций по умолчанию")
+        description="Лимит рекомендаций по умолчанию"
+    )
     SIMILARITY_THRESHOLD: float = Field(
-        default=0.1, description="Порог похожести")
+        description="Порог похожести"
+    )
 
     # ML модели
-    MODEL_PATH: str = Field(default="./models/", description="Путь к моделям")
+    MODEL_PATH: str = Field(
+        description="Путь к моделям"
+    )
     ENABLE_ML_RECOMMENDATIONS: bool = Field(
-        default=True, description="Включить ML рекомендации")
+        description="Включить ML рекомендации"
+    )
+
+    # Пути к ML моделям
+    GENRE_MODEL_PATH: str = Field(
+        description="Путь к модели genre"
+    )
+    VECTORIZER_PATH: str = Field(
+        description="Путь к вектору"
+    )
+
+    # Параметры поиска
+    DEFAULT_SEARCH_LIMIT: int = Field(
+        description="Лимит поиска по умолчанию"
+    )
+    DEFAULT_RECOMMENDATIONS_LIMIT: int = Field(
+        description="Лимит рекомендаций по умолчанию"
+    )
+
+    # Параметры ML модели
+    MODEL_TIMEOUT: int = Field(
+        description="Таймаут модели в секундах"
+    )
+    VECTORIZER_N_FEATURES: int = Field(
+        description="Количество признаков в векторе"
+    )
 
 
 service_config = ServiceConfig()

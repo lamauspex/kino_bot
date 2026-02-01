@@ -1,26 +1,28 @@
+""" Kонтейнер зависимостей """
 
-from bot.config.base import BaseConfig
-from bot.config.data_config import DataConfig
-from bot.config.recom_config import RecommendationConfig
 from dependency_injector import containers, providers
 
-from bot.repositories.interfaces import *
-from bot.repositories.tfidf_recommendation_repository import TfidfRecommendationRepository
-from bot.services.interfaces import *
-from bot.repositories.movie_repository import CachedMovieRepository
-from bot.services.movie_service import MovieService
-from bot.services.recommendation_service import RecommendationService
-from bot.services.genre_classification_service import GenreClassificationService
-from bot.services.quote_service import QuoteService
+from .config import settings, BaseConfig
+from .repositories import (
+    TfidfRecommendationRepository,
+    CachedQuoteRepository,
+    CachedMovieRepository
+)
+from .services import (
+    GenreClassificationService,
+    QuoteService,
+    RecommendationService,
+    MovieService
+)
 
 
 class EnhancedContainer(containers.DeclarativeContainer):
-    """Улучшенный контейнер зависимостей"""
 
     # Конфигурации
+    bot_config = providers.Singleton(settings.bot)
     config = providers.Singleton(BaseConfig)
-    data_config = providers.Singleton(DataConfig)
-    recommendation_config = providers.Singleton(RecommendationConfig)
+    data_config = providers.Singleton(settings.data_config)
+    recommendation_config = providers.Singleton(settings.recomm_config)
 
     # Репозитории (Singleton - одна инстанция на приложение)
     movie_repository = providers.Singleton(
@@ -53,9 +55,13 @@ class EnhancedContainer(containers.DeclarativeContainer):
 
     genre_service = providers.Singleton(
         GenreClassificationService,
+        service_config=settings.service_config
     )
 
     quote_service = providers.Factory(
         QuoteService,
         quote_repository=quote_repository,
     )
+
+
+container = EnhancedContainer()

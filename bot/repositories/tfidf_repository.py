@@ -2,8 +2,8 @@
 
 from typing import List
 
-from bot.models.movie import Movie, MovieRecommendation
-from bot.repositories.interfaces import RecommendationRepositoryProtocol
+from ..models import Movie, MovieRecommendation
+from ..interfaces import RecommendationRepositoryProtocol
 
 
 class TfidfRecommendationRepository(RecommendationRepositoryProtocol):
@@ -16,10 +16,11 @@ class TfidfRecommendationRepository(RecommendationRepositoryProtocol):
     async def get_similar_movies(
         self,
         movie: Movie,
-        limit: int = 5
+        limit: int = None
     ) -> List[MovieRecommendation]:
         """Получить похожие фильмы на основе TF-IDF"""
-        
+
+        limit = limit or self._config.NUM_RECOMMENDATIONS
         # TODO: Реализовать TF-IDF алгоритм
         # Пока возвращаем пустой список как заглушку
         return []
@@ -27,9 +28,10 @@ class TfidfRecommendationRepository(RecommendationRepositoryProtocol):
     async def get_by_genre(
         self,
         genre: str,
-        limit: int = 5
+        limit: int = None
     ) -> List[Movie]:
         """Получить фильмы по жанру"""
-        
+
+        limit = limit or self._config.NUM_RECOMMENDATIONS
         # Используем существующий метод репозитория фильмов
         return await self._movie_repository.search_by_genre(genre, limit)

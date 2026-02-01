@@ -1,8 +1,8 @@
-""" Слой доступа к данным """
+""" Интерфейсы репозиториев """
 
 from typing import List, Optional, Protocol
 
-from bot.models.movie import (
+from ..models import (
     Movie,
     Quote,
     MovieRecommendation

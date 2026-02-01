@@ -1,13 +1,16 @@
 
 from typing import List
 
-from bot.models.movie import Movie, MovieRecommendation
-from bot.repositories.interfaces import (
+from ..models import (
+    Movie,
+    MovieRecommendation
+)
+from ..interfaces import (
     MovieRepositoryProtocol,
-    RecommendationRepositoryProtocol
+    RecommendationRepositoryProtocol,
+    RecommendationServiceProtocol
 )
 from bot.config.recom_config import RecommendationConfig
-from .interfaces import RecommendationServiceProtocol
 
 
 class RecommendationService(RecommendationServiceProtocol):
@@ -26,9 +29,11 @@ class RecommendationService(RecommendationServiceProtocol):
     async def get_similar_movies(
         self,
         movie_title: str,
-        limit: int = 5
+        limit: int = None
     ) -> List[MovieRecommendation]:
         """Получить похожие фильмы"""
+
+        limit = limit or self._config.NUM_RECOMMENDATIONS
 
         try:
             movie = await self._movie_repository.get_by_title(movie_title)

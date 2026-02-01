@@ -1,7 +1,10 @@
+""" Интерфейсы Сервисов """
+
+
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
-from bot.models.movie import Movie, MovieRecommendation
+from ..models import Movie, MovieRecommendation
 
 
 class MovieServiceProtocol(ABC):

@@ -1,15 +1,26 @@
 
 from typing import TypeVar, Type
 
+from ..config import (
+    data_config,
+    RecommendationConfig,
+    ServiceConfig
+)
+from ..repositories import (
+    TfidfRecommendationRepository,
+    CachedMovieRepository
+)
+from ..interfaces import (
+    MovieRepositoryProtocol,
+    RecommendationRepositoryProtocol,
+    MovieServiceProtocol,
+    RecommendationServiceProtocol
+)
+from ..services import (
+    MovieService,
+    RecommendationService
+)
 
-from bot.config import data_config
-from bot.config.recom_config import RecommendationConfig
-from bot.repositories.interfaces import MovieRepositoryProtocol, RecommendationRepositoryProtocol
-from bot.repositories.movie_repository import CachedMovieRepository
-from bot.repositories.tfidf_recommendation_repository import TfidfRecommendationRepository
-from bot.services.interfaces import MovieServiceProtocol, RecommendationServiceProtocol
-from bot.services.movie_service import MovieService
-from bot.services.recommendation_service import RecommendationService
 
 T = TypeVar('T')
 
@@ -22,20 +33,24 @@ class ServiceFactory:
     @classmethod
     def create_movie_service(
         cls,
-        repository_type: Type[MovieRepositoryProtocol] = CachedMovieRepository
+        repository_type: Type[MovieRepositoryProtocol] = CachedMovieRepository,
+        service_config: ServiceConfig = None
     ) -> MovieServiceProtocol:
         """Создать сервис фильмов"""
+
+        service_config = service_config or ServiceConfig()
 
         if MovieService not in cls._services:
             repository = repository_type(data_config)
             cls._services[MovieService] = MovieService(repository)
 
-        return cls._services[MovieService]
+        return MovieService(repository, service_config)
 
     @classmethod
     def create_recommendation_service(
         cls,
-        repository_type: Type[RecommendationRepositoryProtocol] = TfidfRecommendationRepository
+        repository_type: Type[RecommendationRepositoryProtocol] =
+            TfidfRecommendationRepository
     ) -> RecommendationServiceProtocol:
         """Создать сервис рекомендаций"""
 

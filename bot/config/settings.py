@@ -1,8 +1,12 @@
+""" Конфигурация """
 
 
-from .bot_config import bot_config
-from .data_config import data_config
-from .recom_config import recomm_config
+from ..config import (
+    bot_config,
+    data_config,
+    recomm_config,
+    service_config
+)
 
 
 class _SettingsHolder:
@@ -12,7 +16,15 @@ class _SettingsHolder:
 
 
 class SettingsBot:
-    """ Центральный объект конфигурации """
+    """
+    Центральный объект конфигурации
+
+    Обеспечивает единый доступ ко всем настройкам:
+    - bot: Конфигурация бота (токены, API)
+    - crawler: Конфигурация данных (CSV файлы)
+    - recomm: Конфигурация рекомендаций
+    - service: Конфигурация сервисов (ML модели, кэш)
+    """
 
     def __new__(cls):
         if _SettingsHolder.instance is None:
@@ -31,6 +43,7 @@ class SettingsBot:
         self.bot = bot_config()
         self.crawler = data_config()
         self.recomm = recomm_config()
+        self.service = service_config()
         self._initialized = True
 
 

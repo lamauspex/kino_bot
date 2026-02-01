@@ -1,32 +1,31 @@
 """Сервис классификации жанров"""
 
 
-import os
+import asyncio
 import re
 import joblib
 from typing import Optional
 
-from .interfaces import GenreClassificationServiceProtocol
+from ..config import ServiceConfig
+from ..interfaces import GenreClassificationServiceProtocol
 
 
 class GenreClassificationService(GenreClassificationServiceProtocol):
     """Сервис классификации жанра по описанию"""
 
-    def __init__(self):
+    def __init__(self, service_config: ServiceConfig):
+        self._config = service_config
         self._model = None
         self._vectorizer = None
+        self._lock = asyncio.Lock()
 
     async def load_model(self):
         """Ленивая загрузка модели"""
 
         if self._model is None:
 
-            model_path = os.path.join(
-                '..', '..', 'model_fit', 'genre_model.joblib'
-            )
-            vectorizer_path = os.path.join(
-                '..', '..', 'model_fit', 'vectorizer.joblib'
-            )
+            model_path = self._config.GENRE_MODEL_PATH
+            vectorizer_path = self._config.VECTORIZER_PATH
 
             self._model = joblib.load(model_path)
             self._vectorizer = joblib.load(vectorizer_path)

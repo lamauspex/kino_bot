@@ -1,15 +1,24 @@
 
 from typing import List, Optional, Tuple
-from bot.models.movie import Movie
-from bot.repositories.interfaces import MovieRepositoryProtocol
-from .interfaces import MovieServiceProtocol
+
+from ..config import ServiceConfig
+from ..models import Movie
+from ..interfaces import (
+    MovieServiceProtocol,
+    MovieRepositoryProtocol
+)
 
 
 class MovieService(MovieServiceProtocol):
     """Сервис фильмов с dependency injection"""
 
-    def __init__(self, movie_repository: MovieRepositoryProtocol):
+    def __init__(
+        self,
+        movie_repository: MovieRepositoryProtocol,
+        service_config: ServiceConfig
+    ):
         self._movie_repository = movie_repository
+        self._config = service_config
 
     async def get_movie_info(
         self,
@@ -44,4 +53,5 @@ class MovieService(MovieServiceProtocol):
     async def search_by_genre(self, genre: str, limit: int = 5) -> List[Movie]:
         """Поиск фильмов по жанру"""
 
+        limit = limit or self._config.DEFAULT_SEARCH_LIMIT
         return await self._movie_repository.search_by_genre(genre, limit)
