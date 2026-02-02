@@ -1,10 +1,9 @@
-
 from typing import TypeVar, Type
 
 from ..config import (
     data_config,
-    RecommendationConfig,
-    ServiceConfig
+    recommendations_config,
+    performance_config
 )
 from ..repositories import (
     TfidfRecommendationRepository,
@@ -15,10 +14,6 @@ from ..interfaces import (
     RecommendationRepositoryProtocol,
     MovieServiceProtocol,
     RecommendationServiceProtocol
-)
-from ..services import (
-    MovieService,
-    RecommendationService
 )
 
 
@@ -34,17 +29,20 @@ class ServiceFactory:
     def create_movie_service(
         cls,
         repository_type: Type[MovieRepositoryProtocol] = CachedMovieRepository,
-        service_config: ServiceConfig = None
+        service_config=None
     ) -> MovieServiceProtocol:
         """Создать сервис фильмов"""
 
-        service_config = service_config or ServiceConfig()
+        service_config = service_config or performance_config
 
-        if MovieService not in cls._services:
+        if MovieServiceProtocol not in cls._services:
             repository = repository_type(data_config)
-            cls._services[MovieService] = MovieService(repository)
+            # Отложенный импорт для избежания циклической зависимости
+            from ..services import MovieService
+            cls._services[MovieServiceProtocol] = MovieService(
+                repository, service_config)
 
-        return MovieService(repository, service_config)
+        return cls._services[MovieServiceProtocol]
 
     @classmethod
     def create_recommendation_service(
@@ -54,12 +52,16 @@ class ServiceFactory:
     ) -> RecommendationServiceProtocol:
         """Создать сервис рекомендаций"""
 
-        if RecommendationService not in cls._services:
+        if RecommendationServiceProtocol not in cls._services:
             movie_service = cls.create_movie_service()
             repository = repository_type(movie_service._movie_repository)
-            config = RecommendationConfig()
-            cls._services[RecommendationService] = RecommendationService(
-                movie_service._movie_repository, repository, config
+            config = recommendations_config
+            # Отложенный импорт для избежания циклической зависимости
+            from ..services import RecommendationService
+            cls._services[RecommendationServiceProtocol] = \
+                RecommendationService(
+                movie_service._movie_repository,
+                repository, config
             )
 
-        return cls._services[RecommendationService]
+        return cls._services[RecommendationServiceProtocol]

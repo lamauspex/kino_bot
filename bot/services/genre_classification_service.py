@@ -6,15 +6,21 @@ import re
 import joblib
 from typing import Optional
 
-from ..config import ServiceConfig
+from ..config.ml_config import MLConfig
+from ..config.performance_config import PerformanceConfig
 from ..interfaces import GenreClassificationServiceProtocol
 
 
 class GenreClassificationService(GenreClassificationServiceProtocol):
     """Сервис классификации жанра по описанию"""
 
-    def __init__(self, service_config: ServiceConfig):
-        self._config = service_config
+    def __init__(
+        self,
+        ml_config: MLConfig,
+        performance_config: PerformanceConfig
+    ):
+        self._ml_config = ml_config
+        self._performance_config = performance_config
         self._model = None
         self._vectorizer = None
         self._lock = asyncio.Lock()
@@ -24,8 +30,8 @@ class GenreClassificationService(GenreClassificationServiceProtocol):
 
         if self._model is None:
 
-            model_path = self._config.GENRE_MODEL_PATH
-            vectorizer_path = self._config.VECTORIZER_PATH
+            model_path = self._ml_config.GENRE_MODEL_PATH
+            vectorizer_path = self._ml_config.VECTORIZER_PATH
 
             self._model = joblib.load(model_path)
             self._vectorizer = joblib.load(vectorizer_path)

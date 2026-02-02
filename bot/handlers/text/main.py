@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from .router import TextRouter
-from ..services import (
+from ...services import (
     MovieService,
     GenreClassificationService,
     RecommendationService

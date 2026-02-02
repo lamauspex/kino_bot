@@ -1,7 +1,7 @@
 
 from typing import List, Optional, Tuple
 
-from ..config import ServiceConfig
+from ..config.performance_config import PerformanceConfig
 from ..models import Movie
 from ..interfaces import (
     MovieServiceProtocol,
@@ -15,10 +15,10 @@ class MovieService(MovieServiceProtocol):
     def __init__(
         self,
         movie_repository: MovieRepositoryProtocol,
-        service_config: ServiceConfig
+        performance_config: PerformanceConfig
     ):
         self._movie_repository = movie_repository
-        self._config = service_config
+        self._config = performance_config
 
     async def get_movie_info(
         self,

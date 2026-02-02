@@ -35,7 +35,7 @@ from .callback.strategies import (
 )
 
 # Импорты из text обработчиков
-from .text.strategies import (
+from .text import (
     TextHandler,
     TextRouter
 )
@@ -62,6 +62,25 @@ from .common import (
     is_command,
     extract_command_name,
 )
+
+# Функции-обёртки для совместимости с app.py
+from telegram.ext import ContextTypes
+from telegram import Update
+
+
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Обработчик callback queries"""
+    from ..containers import container
+    callback_handler = container.callback_handler()
+    await callback_handler.handle(update, context)
+
+
+async def handle_user_input(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Обработчик текстового ввода"""
+    from ..containers import container
+    text_handler = container.text_handler()
+    await text_handler.handle(update, context)
+
 
 __all__ = [
     # Base
@@ -108,4 +127,7 @@ __all__ = [
     'sanitize_user_input',
     'is_command',
     'extract_command_name',
+    # Wrapper functions
+    'button_callback',
+    'handle_user_input',
 ]

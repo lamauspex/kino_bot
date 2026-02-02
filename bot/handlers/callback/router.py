@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from ..base.abstract import AbstractStrategy
-from ..services import (
+from ...services import (
     MovieService,
     RecommendationService,
     GenreClassificationService

@@ -3,9 +3,8 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from ..base.results import HandlerResult
 from .router import CallbackRouter
-from ..services import (
+from ...services import (
     MovieService,
     RecommendationService,
     GenreClassificationService
@@ -29,8 +28,13 @@ class CallbackHandler:
             tfidf_service=tfidf_service,
         )
 
-    async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    async def handle(
+        self,
+        update: Update,
+        context: ContextTypes.DEFAULT_TYPE
+    ) -> None:
         """Обработать callback query"""
+
         if not update.callback_query:
             return
 

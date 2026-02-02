@@ -1,19 +1,21 @@
 
 
 import asyncio
-from typing import Optional
+from typing import List, Optional
 
 import pandas as pd
 
-from ..config import settings
+from bot.config.data_config import DataConfig
+
+
 from ..models import Movie
 from ..interfaces import MovieRepositoryProtocol
 
 
 class CachedMovieRepository(MovieRepositoryProtocol):
-    """Кэшированный репозиторий фильмов с async/await"""
+    """ Кэшированный репозиторий фильмов с async/await """
 
-    def __init__(self, data_config: settings.data_config):
+    def __init__(self, data_config: DataConfig):
         self._data_config = data_config
         self._cache: Optional[pd.DataFrame] = None
         self._cache_lock = asyncio.Lock()
@@ -72,7 +74,11 @@ class CachedMovieRepository(MovieRepositoryProtocol):
         )
         return self._movie_from_row(movie_data, str(movie_data.name))
 
-    async def search_by_genre(self, genre: str, limit: int = 10) -> List[Movie]:
+    async def search_by_genre(
+        self,
+        genre: str,
+        limit: int = 10
+    ) -> List[Movie]:
         """Поиск фильмов по жанру"""
 
         await self._ensure_cache_loaded()
@@ -88,7 +94,11 @@ class CachedMovieRepository(MovieRepositoryProtocol):
             for _, row in movies_data.iterrows()
         ]
 
-    async def search_by_title_contains(self, query: str, limit: int = 10) -> List[Movie]:
+    async def search_by_title_contains(
+        self,
+        query: str,
+        limit: int = 10
+    ) -> List[Movie]:
         """Поиск фильмов по названию (частичное совпадение)"""
 
         await self._ensure_cache_loaded()

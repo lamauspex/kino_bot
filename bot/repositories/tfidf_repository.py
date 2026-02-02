@@ -4,14 +4,21 @@ from typing import List
 
 from ..models import Movie, MovieRecommendation
 from ..interfaces import RecommendationRepositoryProtocol
+from ..config.recommendations_config import RecommendationsConfig
 
 
 class TfidfRecommendationRepository(RecommendationRepositoryProtocol):
     """Реализация репозитория рекомендаций на основе TF-IDF"""
 
-    def __init__(self, movie_repository):
+    def __init__(
+        self,
+        movie_repository,
+        recommendations_config: RecommendationsConfig
+    ):
         """Инициализация с зависимостью от репозитория фильмов"""
+
         self._movie_repository = movie_repository
+        self._config = recommendations_config
 
     async def get_similar_movies(
         self,

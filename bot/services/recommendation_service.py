@@ -10,7 +10,7 @@ from ..interfaces import (
     RecommendationRepositoryProtocol,
     RecommendationServiceProtocol
 )
-from bot.config.recom_config import RecommendationConfig
+from ..config.recommendations_config import RecommendationsConfig
 
 
 class RecommendationService(RecommendationServiceProtocol):
@@ -20,11 +20,11 @@ class RecommendationService(RecommendationServiceProtocol):
         self,
         movie_repository: MovieRepositoryProtocol,
         recommendation_repository: RecommendationRepositoryProtocol,
-        recommendation_config: RecommendationConfig
+        recommendations_config: RecommendationsConfig
     ):
         self._movie_repository = movie_repository
         self._recommendation_repository = recommendation_repository
-        self._config = recommendation_config
+        self._config = recommendations_config
 
     async def get_similar_movies(
         self,

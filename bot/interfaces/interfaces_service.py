@@ -12,14 +12,19 @@ class MovieServiceProtocol(ABC):
 
     @abstractmethod
     async def get_movie_info(
-        self, title: str) -> tuple[Optional[str], Optional[str]]: ...
+        self,
+        title: str
+    ) -> tuple[Optional[str], Optional[str]]: ...
 
     @abstractmethod
     async def get_random_movie(self) -> Movie: ...
 
     @abstractmethod
     async def search_by_genre(
-        self, genre: str, limit: int = 5) -> List[Movie]: ...
+        self,
+        genre: str,
+        limit: int = 5
+    ) -> List[Movie]: ...
 
 
 class RecommendationServiceProtocol(ABC):
@@ -44,7 +49,10 @@ class GenreClassificationServiceProtocol(ABC):
     """Интерфейс сервиса классификации жанров"""
 
     @abstractmethod
-    async def predict_genre(self, description: str) -> Optional[str]: ...
+    async def predict_genre(
+        self,
+        description: str
+    ) -> Optional[str]: ...
 
 
 class QuoteServiceProtocol(ABC):

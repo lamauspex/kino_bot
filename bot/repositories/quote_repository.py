@@ -1,10 +1,10 @@
-
 """Репозиторий цитат с кэшированием"""
 
 import asyncio
 from typing import Optional
+import pandas as pd
 
-from ..config import settings
+from ..config.data_config import DataConfig
 from ..models import Quote
 from ..interfaces import QuoteRepositoryProtocol
 
@@ -12,7 +12,7 @@ from ..interfaces import QuoteRepositoryProtocol
 class CachedQuoteRepository(QuoteRepositoryProtocol):
     """Кэшированный репозиторий цитат с async/await"""
 
-    def __init__(self, data_config: settings.data_config):
+    def __init__(self, data_config: DataConfig):
         self._data_config = data_config
         self._cache: Optional[pd.DataFrame] = None
         self._cache_lock = asyncio.Lock()

@@ -1,10 +1,8 @@
 """ Файл запуска """
 
-
-import asyncio
-
-from bot.app import app
-
-
 if __name__ == "__main__":
-    asyncio.run(app())
+    from bot.app import create_app
+
+    # Создаем приложение и запускаем его корректно
+    app = create_app()
+    app.run_polling()

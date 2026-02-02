@@ -3,7 +3,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from ..services import MovieService, RecommendationService, GenreClassificationService
+from ...services import MovieService, RecommendationService, GenreClassificationService
 from .strategies.movie_info import MovieInfoTextStrategy
 from .strategies.genre_prediction import GenrePredictionTextStrategy
 from .strategies.similar_movies import SimilarMovieTextStrategy

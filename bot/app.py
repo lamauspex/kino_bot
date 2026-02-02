@@ -32,11 +32,12 @@ def create_app():
 
     logger.info("Создание приложения...")
 
-    # Инициализация контейнера (опционально - проверить соединения)
-    container.config().verify()
+    # Инициализация контейнера зависимостей
+    container.init_resources()
 
+    # Создаем и конфигурируем приложение
     app = ApplicationBuilder().token(
-        container.settings().bot.TOKEN
+        container.bot_config().TOKEN
     ).build()
 
     # Регистрация обработчиков
@@ -50,16 +51,3 @@ def create_app():
 
     logger.info("Обработчики зарегистрированы")
     return app
-
-
-async def app_bot():
-    """Запуск приложения"""
-
-    app = create_app()
-
-    logger.info("Бот запущен и готов к работе!")
-    await app.run_polling()
-
-
-# Для обратной совместимости - глобальные объекты
-app = create_app()

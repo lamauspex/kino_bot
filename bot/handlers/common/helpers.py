@@ -63,7 +63,10 @@ def get_user_context_info(context: ContextTypes.DEFAULT_TYPE) -> dict:
     }
 
 
-def clear_user_context(context: ContextTypes.DEFAULT_TYPE, keep_keys: Optional[List[str]] = None):
+def clear_user_context(
+    context: ContextTypes.DEFAULT_TYPE,
+    keep_keys: Optional[List[str]] = None
+):
     """Очистить контекст пользователя, сохранив указанные ключи"""
 
     if keep_keys is None:

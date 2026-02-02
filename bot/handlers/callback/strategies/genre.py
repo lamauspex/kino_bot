@@ -5,7 +5,7 @@ from telegram.ext import ContextTypes
 from telegram import Update
 
 from ...base import CallbackAction, HandlerResult
-from ...callback import BaseCallbackStrategy
+from .navigation import BaseCallbackStrategy
 
 
 class SearchGenreStrategy(BaseCallbackStrategy):

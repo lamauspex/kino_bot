@@ -1,11 +1,12 @@
 """ Конфигурация """
 
-
 from ..config import (
     bot_config,
     data_config,
-    recomm_config,
-    service_config
+    cache_config,
+    performance_config,
+    recommendations_config,
+    ml_config
 )
 
 
@@ -21,9 +22,11 @@ class SettingsBot:
 
     Обеспечивает единый доступ ко всем настройкам:
     - bot: Конфигурация бота (токены, API)
-    - crawler: Конфигурация данных (CSV файлы)
-    - recomm: Конфигурация рекомендаций
-    - service: Конфигурация сервисов (ML модели, кэш)
+    - data: Конфигурация данных (CSV файлы)
+    - cache: Конфигурация кэширования
+    - performance: Конфигурация производительности
+    - recommendations: Конфигурация рекомендаций
+    - ml: Конфигурация ML моделей
     """
 
     def __new__(cls):
@@ -40,10 +43,13 @@ class SettingsBot:
         if self._initialized:
             return
 
-        self.bot = bot_config()
-        self.crawler = data_config()
-        self.recomm = recomm_config()
-        self.service = service_config()
+        self.bot = bot_config
+        self.data = data_config
+        self.cache = cache_config
+        self.performance = performance_config
+        self.recommendations = recommendations_config
+        self.ml = ml_config
+
         self._initialized = True
 
 

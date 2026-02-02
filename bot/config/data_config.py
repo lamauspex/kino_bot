@@ -9,8 +9,14 @@ from .base import BaseConfig
 class DataConfig(BaseConfig):
     """ Загрузка данных из CSV """
 
-    DATA_QUOTES_PATH: str = Field(description='Путь к файлу цитат')
-    DATA_MOVIES_PATH: str = Field(description='Путь к файлу фильмов')
+    DATA_QUOTES_PATH: str = Field(
+        default='data/quotes.csv',
+        description='Путь к файлу цитат'
+    )
+    DATA_MOVIES_PATH: str = Field(
+        default='data/top_movies.csv',
+        description='Путь к файлу фильмов'
+    )
 
     @property
     def DATA_QUOTES(self) -> pd.DataFrame:

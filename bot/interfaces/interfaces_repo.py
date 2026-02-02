@@ -13,21 +13,27 @@ class MovieRepositoryProtocol(Protocol):
     """Интерфейс репозитория фильмов"""
 
     async def get_by_id(
-        self, movie_id: str
+        self,
+        movie_id: str
     ) -> Optional[Movie]: ...
 
     async def get_by_title(
-        self, title: str
+        self,
+        title: str
     ) -> Optional[Movie]: ...
 
     async def search_by_genre(
-        self, genre: str, limit: int = 10
+        self,
+        genre: str,
+        limit: int = 10
     ) -> List[Movie]: ...
 
     async def get_random(self) -> Movie: ...
 
     async def search_by_title_contains(
-        self, query: str, limit: int = 10
+        self,
+        query: str,
+        limit: int = 10
     ) -> List[Movie]: ...
 
 
