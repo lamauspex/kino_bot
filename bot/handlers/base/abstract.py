@@ -37,17 +37,21 @@ class AbstractCommand(ABC):
         context: ContextTypes.DEFAULT_TYPE,
     ) -> HandlerResult:
         """Выполнить команду"""
+
         pass
 
     @property
     @abstractmethod
     def pattern(self) -> str:
         """Паттерн для распознавания команды"""
+
         pass
 
 
 class AbstractTextStrategy(ABC):
-    """Стратегия для обработки текстового ввода в определённом состоянии"""
+    """
+    Стратегия для обработки текстового ввода в определённом состоянии
+    """
 
     @abstractmethod
     async def execute(
@@ -56,9 +60,11 @@ class AbstractTextStrategy(ABC):
         context: ContextTypes.DEFAULT_TYPE,
     ) -> HandlerResult:
         """Выполнить стратегию"""
+
         pass
 
     @abstractmethod
     def matches_state(self, state: Optional[str]) -> bool:
         """Проверить соответствие состоянию"""
+
         pass
