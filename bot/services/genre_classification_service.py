@@ -5,10 +5,9 @@ import asyncio
 import re
 import joblib
 from typing import Optional
-
-from ..config.ml_config import MLConfig
-from ..config.performance_config import PerformanceConfig
-from ..interfaces import GenreClassificationServiceProtocol
+from bot.config.ml_config import MLConfig
+from bot.config.performance_config import PerformanceConfig
+from bot.interfaces.interfaces_service import GenreClassificationServiceProtocol
 
 
 class GenreClassificationService(GenreClassificationServiceProtocol):

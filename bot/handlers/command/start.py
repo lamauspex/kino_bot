@@ -1,17 +1,24 @@
 """ Обработчик команды /start """
 
+import logging
+
 from telegram import Update
 from telegram.ext import ContextTypes
 
 from ..base.results import HandlerResult
 from ..common.keyboards import get_main_menu_keyboard
 
+logger = logging.getLogger(__name__)
+
 
 async def start(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
-) -> HandlerResult:
+) -> None:
     """ Обработчик команды /start """
+
+    logger.info("Команда /start получена от пользователя: %s",
+                update.effective_user.id)
 
     welcome_text = (
         "🎬 Добро пожаловать в бота для поиска фильмов!\n\n"
@@ -23,7 +30,8 @@ async def start(
         "Выберите действие в меню ниже:"
     )
 
-    return HandlerResult(
-        text=welcome_text,
+    # Отправляем сообщение пользователю
+    await update.message.reply_text(
+        welcome_text,
         reply_markup=get_main_menu_keyboard()
     )

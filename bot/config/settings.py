@@ -1,6 +1,6 @@
 """ Конфигурация """
 
-from ..config import (
+from . import (
     bot_config,
     data_config,
     cache_config,

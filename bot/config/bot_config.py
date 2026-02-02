@@ -11,7 +11,7 @@ class BotConfig(BaseConfig):
     """ Конфигурация данных бота """
 
     TOKEN: str = Field(
-        default='8352703188:AAG7GbqFB3SUBrFHVg0nUtr1BMNev0cdWTM',
+        default='',
         description='Ваш токен бота'
     )
 

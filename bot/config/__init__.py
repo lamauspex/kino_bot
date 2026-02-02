@@ -1,11 +1,11 @@
 
 from .base import BaseConfig
-from .bot_config import bot_config
-from .data_config import data_config
-from .cache_config import cache_config
-from .performance_config import performance_config
-from .recommendations_config import recommendations_config
-from .ml_config import ml_config
+from .bot_config import bot_config, BotConfig
+from .data_config import data_config, DataConfig
+from .cache_config import cache_config, CacheConfig
+from .performance_config import performance_config, PerformanceConfig
+from .recommendations_config import recommendations_config, RecommendationsConfig
+from .ml_config import ml_config, MLConfig
 from .settings import settings
 
 __all__ = [
@@ -17,4 +17,11 @@ __all__ = [
     'recommendations_config',
     'ml_config',
     'settings',
+
+    'PerformanceConfig',
+    'RecommendationsConfig',
+    'MLConfig',
+    'DataConfig',
+    'CacheConfig',
+    'BotConfig'
 ]

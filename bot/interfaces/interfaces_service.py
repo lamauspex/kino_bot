@@ -49,7 +49,7 @@ class GenreClassificationServiceProtocol(ABC):
     """Интерфейс сервиса классификации жанров"""
 
     @abstractmethod
-    async def predict_genre(
+    async def predict(
         self,
         description: str
     ) -> Optional[str]: ...

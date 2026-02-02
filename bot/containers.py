@@ -58,7 +58,7 @@ class EnhancedContainer(containers.DeclarativeContainer):
         recommendations_config=recommendations_config,
     )
 
-    genre_service = providers.Singleton(
+    genre_service = providers.Factory(
         GenreClassificationService,
         ml_config=ml_config,
         performance_config=performance_config,

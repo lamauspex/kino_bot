@@ -108,7 +108,5 @@ __all__ = [
     'sanitize_user_input',
     'is_command',
     'extract_command_name',
-    # Wrapper functions
-    'button_callback',
-    'handle_user_input',
+    # Wrapper functions - не экспортируем, создаются в app.py
 ]

@@ -6,9 +6,11 @@ from telegram.ext import ContextTypes
 
 from ...base.abstract import AbstractStrategy
 from ...base.results import HandlerResult
-from bot.services.genre_classification_service import GenreClassificationService
-from bot.services.movie_service import MovieService
-from bot.services.recommendation_service import RecommendationService
+from bot.services import (
+    GenreClassificationService,
+    MovieService,
+    RecommendationService
+)
 
 
 class BaseCallbackStrategy(AbstractStrategy):

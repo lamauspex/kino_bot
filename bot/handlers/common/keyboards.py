@@ -11,7 +11,7 @@ def get_main_menu_keyboard() -> InlineKeyboardMarkup:
     keyboard = [
         [InlineKeyboardButton(
             "🔍 Поиск по жанру",
-            callback_data="search_genre"
+            callback_data="search_movies"
         )],
         [InlineKeyboardButton(
             "🎲 Случайный фильм",

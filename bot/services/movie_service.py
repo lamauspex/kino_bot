@@ -1,7 +1,7 @@
 
 from typing import List, Optional, Tuple
 
-from ..config.performance_config import PerformanceConfig
+from ..config import PerformanceConfig
 from ..models import Movie
 from ..interfaces import (
     MovieServiceProtocol,

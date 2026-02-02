@@ -1,10 +1,6 @@
 from typing import TypeVar, Type
 
-from ..config import (
-    data_config,
-    recommendations_config,
-    performance_config
-)
+from ..config import settings
 from ..repositories import (
     TfidfRecommendationRepository,
     CachedMovieRepository
@@ -33,10 +29,10 @@ class ServiceFactory:
     ) -> MovieServiceProtocol:
         """Создать сервис фильмов"""
 
-        service_config = service_config or performance_config
+        service_config = service_config or settings.performance
 
         if MovieServiceProtocol not in cls._services:
-            repository = repository_type(data_config)
+            repository = repository_type(settings.data)
             # Отложенный импорт для избежания циклической зависимости
             from ..services import MovieService
             cls._services[MovieServiceProtocol] = MovieService(
@@ -55,7 +51,8 @@ class ServiceFactory:
         if RecommendationServiceProtocol not in cls._services:
             movie_service = cls.create_movie_service()
             repository = repository_type(movie_service._movie_repository)
-            config = recommendations_config
+            config = settings.recommendations
+
             # Отложенный импорт для избежания циклической зависимости
             from ..services import RecommendationService
             cls._services[RecommendationServiceProtocol] = \
